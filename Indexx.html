@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title> Valentine </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  overflow: hidden;
+}
+
+/* Pages */
+.page {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.active { display: flex; }
+
+/* Cards */
+.card {
+  background: rgba(255,255,255,0.9);
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+/* Buttons */
+button {
+  margin: 10px;
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+button:active {
+  transform: scale(1.1);  /* Zoom effect when pressed */
+}
+
+#noBtn {
+  background: #999;
+  position: absolute;
+}
+
+/* Hearts */
+.heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+.big-heart {
+  font-size: 60px;
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  50% { transform: scale(1.2); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8cfdc8f9c3.mp3">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="card">
+    <h2> Valentines na pala? </h2>
+    <p>My strawberry baby</p>
+    <br><br>
+    <button onclick="goPage2()">Continue</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div class="card">
+    <div class="big-heart">💖</div>
+    <p id="typing"></p>
+    <br>
+    <button onclick="goPage3()">Yieeeeeeee</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="card" id="questionCard">
+    <h2>Will you be my Valentine?</h2>
+    <button id="yesBtn">YES :)</button>
+    <button id="noBtn">NO :(</button>
+  </div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+  <div class="card">
+    <h2>WALA KANG MAGAGAWA MUAHAHAH</h2>
+    <p>I love you so much 
+    <div class="big-heart">💓</div>
+  </div>
+</div>
+
+<script>
+let text = "";
+let index = 0;
+
+function switchPage(from, to) {
+  document.getElementById(from).classList.remove("active");
+  document.getElementById(to).classList.add("active");
+}
+
+function goPage2() {
+  switchPage("page1", "page2");
+  document.getElementById("music").play();
+  text = `This upcoming February 14 is special to me because it’s the day I courted you. Thank you for your patience, your kindness, and for being someone who makes my days brighter. I truly appreciate everything you are and everything you do, even the little things you may not notice. With all that, bal, can I be your Valentine this Valentine’s Day?`;
+  index = 0;
+  document.getElementById("typing").innerHTML = "";
+  typeText();
+}
+
+function typeText() {
+  if (index < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeText, 50);
+  }
+}
+
+function goPage3() {
+  switchPage("page2", "page3");
+}
+
+// YES
+document.getElementById("yesBtn").addEventListener("click", () => {
+  switchPage("page3", "page4");
+});
+
+// NO runs away 😈
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+  noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+  noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+});
+
+// Floating hearts
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 12 + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 500);
+</script>
+
+</body>
+</html>
